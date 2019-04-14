@@ -2,20 +2,37 @@
 # - export TAG=`if [ "$TRAVIS_BRANCH" == "develop" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
 # Replace / with _ to create a valid tag
 TAG=$(echo "${TRAVIS_BRANCH}" | sed -e "s/\//_/")
+TAG_PI="${TAG}_pi"
 
 
 # Add commit and commit_message to docker container
 echo "${TRAVIS_COMMIT} ${TRAVIS_COMMIT_MESSAGE}" > freqtrade_commit
 
-if [ "${TRAVIS_EVENT_TYPE}" = "cron" ]; then
+# if [ "${TRAVIS_EVENT_TYPE}" = "cron" ]; then
+#     echo "event ${TRAVIS_EVENT_TYPE}: full rebuild - skipping cache"
+#     docker build -t freqtrade:${TAG} .
+# else
+#     echo "event ${TRAVIS_EVENT_TYPE}: building with cache"
+#     # Pull last build to avoid rebuilding the whole image
+#     docker pull ${IMAGE_NAME}:${TAG}
+#     docker build --cache-from ${IMAGE_NAME}:${TAG} -t freqtrade:${TAG} .
+# fi
+
+# if [ $? -ne 0 ]; then
+#     echo "failed building image"
+#     return 1
+# fi
+
+echo "Building ARM Image for Raspberry"
+# if [ "${TRAVIS_EVENT_TYPE}" = "cron" ]; then
     echo "event ${TRAVIS_EVENT_TYPE}: full rebuild - skipping cache"
-    docker build -t freqtrade:${TAG} .
-else
-    echo "event ${TRAVIS_EVENT_TYPE}: building with cache"
+    docker build -f Dockerfile.pi -t freqtrade:${TAG_PI} .
+# else
+    # echo "event ${TRAVIS_EVENT_TYPE}: building with cache"
     # Pull last build to avoid rebuilding the whole image
-    docker pull ${IMAGE_NAME}:${TAG}
-    docker build --cache-from ${IMAGE_NAME}:${TAG} -t freqtrade:${TAG} .
-fi
+    # docker pull ${IMAGE_NAME}:${TAG_PI}
+    # docker build --cache_from ${IMAGE_NAME}:${TAG_PI} -f Dockerfile.pi -t freqtrade:${TAG_PI} .
+# fi
 
 if [ $? -ne 0 ]; then
     echo "failed building image"

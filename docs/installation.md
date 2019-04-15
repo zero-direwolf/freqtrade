@@ -324,7 +324,7 @@ conda config --add channels rpi
 conda install python=3.6
 conda create -n freqtrade python=3.6
 conda activate freqtrade
-conda install scipy pandas numpy
+conda install numpy pandas scipy scikit-learn scikit-optimize
 
 sudo apt install libffi-dev
 python3 -m pip install -r requirements.txt

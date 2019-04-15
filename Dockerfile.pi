@@ -28,7 +28,7 @@ RUN wget https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/Berryco
 
 # Install dependencies
 COPY requirements-pi.txt /freqtrade/
-RUN ~/berryconda3/bin/conda install -y numpy pandas scipy scikit-learn scikit-optimize \
+RUN ~/berryconda3/bin/conda install -y -c conda-forge numpy pandas scipy scikit-learn scikit-optimize \
  && ~/berryconda3/bin/pip install -r requirements-pi.txt --no-cache-dir
 
 # Install and execute

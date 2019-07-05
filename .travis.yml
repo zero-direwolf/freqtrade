@@ -11,7 +11,7 @@ env:
   global:
     - IMAGE_NAME=freqtradeorg/freqtrade
 install:
-- cd build_helpers && ./install_ta-lib.sh; cd ..
+- cd build_helpers && ./install_ta-lib.sh ${HOME}/dependencies/; cd ..
 - export LD_LIBRARY_PATH=${HOME}/dependencies/lib:$LD_LIBRARY_PATH
 - export TA_LIBRARY_PATH=${HOME}/dependencies/lib
 - export TA_INCLUDE_PATH=${HOME}/dependencies/lib/include
